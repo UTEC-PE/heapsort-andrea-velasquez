@@ -48,8 +48,37 @@ void printArray(int *array, size_t size) {
     cout << endl;
 }
 
+void maxheap(int* array, size_t size, int root_pos){
+    int largest_pos=root_pos;
+    int left_pos = (2*root_pos+1) ;
+    int right_pos = (2*root_pos+2);
+
+    if (left_pos <size&& array[left_pos] > array[largest_pos]) largest_pos = left_pos;
+    if (right_pos<size && array[right_pos] > array[largest_pos]) largest_pos = right_pos;
+
+    if (largest_pos!=root_pos){
+        int temp=array[largest_pos];
+        array[largest_pos]=array[root_pos];
+        array[root_pos]=temp;
+        
+        maxheap(array, size, largest_pos); 
+    }
+}
+
+
 void heapsort(int* array, size_t size) {
-    // TODO
+    int pos = size/2-1;
+    while (pos>=0) maxheap(array, size, pos), --pos;
+
+    pos = size-1;
+    while (pos>=0){
+        int temp=array[pos];
+        array[pos]=array[0];
+        array[0]=temp;
+
+        maxheap(array, pos, 0);
+        --pos;
+    }
 }
 
 bool validate(int* array, size_t size) {
